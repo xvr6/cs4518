@@ -1,2 +1,3 @@
 # cs4518
-Mobile &amp; Ubiquitous Computing course @ WPI
+
+Mobile & Ubiquitous Computing course @ WPI
