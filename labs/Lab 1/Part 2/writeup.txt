@@ -1,0 +1,16 @@
+Technical writeup 
+- project setup / app overview
+
+This app allows users to report a perceived 'criminal intent'. It takes an image, has a title, a boolean value representing I the crime was solved or not, and has a place to link a contact if a suspect is known.
+
+- key feature 1
+
+The first key feature I focused on was the photo taking feature. I wanted to understand how the android api calls worked here to implement it in future apps. With a button press, the user runs a small script that calls the android apis built in camera features. Afterwards, it names the file, saves it, and imports the file to the app.
+
+First, the app is given permission to do so via the android manifest xml. This Is what tells android that the app may request/require the hardware access. 
+
+- key feature 2
+
+This feature is very similar to the first; importing a contact to the app with a button click. This is handled in much the same way - just an API call and some flow handling.
+
+First, just like the first feature, the app is given permission via the manifest xml.
