@@ -6,25 +6,27 @@
     android:gravity="center"
     android:padding="16dp">
 
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="275dp"
+        android:layout_height="125dp"
+        android:layout_marginBottom="26dp"
+        android:textSize="48sp"
+        android:text="START" />
+
     <TextView
         android:id="@+id/textViewCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="32sp"
-        android:textStyle="bold"/>
-
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:layout_marginTop="16dp"/>
+        android:textSize="420px"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_marginTop="8dp"/>
+        android:layout_width="275dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="36dp"
+        android:textSize="48dp"
+        android:text="STOP" />
 </LinearLayout>
