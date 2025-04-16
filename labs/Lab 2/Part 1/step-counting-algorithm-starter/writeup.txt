@@ -1,0 +1,8 @@
+p1
+    1. What are the value ranges for the D1 trace and the D3 trace? 
+       1. The value ranges for the x, y, and z axes can be determined by analyzing the raw acceleration data. Typically, the values will range between approximately -10m/s^2 to 10 m/s^2, depending on the phone's orientation and movement. This is the same for D1 and D3
+    2. Why do you think the raw accelerometer data reading look different, given that they were collected under very similar conditions?
+       1. Phone orientation was most likely the largest factor. D1 was recorded with the left hand and D3 with the right.
+p2
+    2. Compare the magnitude plots with the previous raw acceleration data plots, and briefly explain why it should be easier to work with the magnitude data.
+       1. Orientation Independence: Since the raw acceleration is x,y,z, it would changed drastically based on how the phone was ornenated. Turning this data into a magnitude makes this issue nonexistent. This also leads to simplified analysis, reducing the complexity by 2/3rds.
