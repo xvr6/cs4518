@@ -48,13 +48,15 @@ def predict():
         with torch.no_grad():
             outputs = model(input_tensor)
             probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
-            top_prob, predicted_idx = probabilities.max(0)
-  
-        # Get the class label
-        predicted_label = classes[predicted_idx.item()]
-        predicted_score = top_prob.item()
+            top_probs, top_idxs = probabilities.topk(5)  # Get top-5 predictions
 
-        return jsonify({"predicted_label": predicted_label, "score": predicted_score})
+        # Get the class labels and scores
+        top_predictions = [
+            {"label": classes[idx.item()], "score": prob.item()}
+            for idx, prob in zip(top_idxs, top_probs)
+        ]
+
+        return jsonify({"predictions": top_predictions})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
