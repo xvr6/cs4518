@@ -42,7 +42,7 @@ while True:
         if response.status_code == 200:
             json_response = response.json()
             predictions = json_response.get("predictions", [])
-            print("Top-5 Predictions:")
+            print("\nTop-5 Predictions:")
             for i, prediction in enumerate(predictions):
                 label = prediction.get("label", "Unknown")
                 score = prediction.get("score", 0.0)

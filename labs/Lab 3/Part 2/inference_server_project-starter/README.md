@@ -45,7 +45,13 @@ If the server setup is successful, you should see the output like this:
 
 ## Testing the Server
 
-To test the functionality of the server, you can use `curl` like this:
+To test the functionality of the server, first run the server:
+
+```bash
+python  image_classification_server.py
+```
+
+Then, you can use `curl` like this:
 
 ```bash
 curl -X POST -F "file=@test-images/dog.jpg" http://127.0.0.1:5050/predict
