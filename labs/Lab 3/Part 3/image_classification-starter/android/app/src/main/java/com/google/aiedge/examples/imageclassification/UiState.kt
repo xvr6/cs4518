@@ -24,6 +24,7 @@ class UiState(
     val categories: List<ImageClassificationHelper.Category> = emptyList(),
     val setting: Setting = Setting(),
     val errorMessage: String? = null,
+    val isCloudMode: Boolean = false // Add this field
 )
 
 @Immutable

@@ -65,7 +65,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.aiedge.examples.imageclassification.view.ApplicationTheme
 import com.google.aiedge.examples.imageclassification.view.CameraScreen
+import java.io.File
 import java.util.Locale
+import okhttp3.*
+import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
+import java.io.IOException
 
 
 class MainActivity : ComponentActivity() {
@@ -110,6 +115,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        // Example: Replace with the actual image file path
+        val imageFile = File(filesDir, "test-image.jpg")
+
+        sendImageToServerWithOkHttp(imageFile)
     }
 
     @Composable
@@ -350,4 +360,66 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun sendImageToServerWithOkHttp(imageFile: File) {
+        val client = OkHttpClient()
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", imageFile.name, imageFile.asRequestBody())
+            .build()
+
+        val request = Request.Builder()
+            .url("http://10.0.2.2:5050/predict") // Replace with your server URL
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Toast.makeText(this@MainActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    response.body?.string()?.let { responseBody ->
+                        val predictions = parsePredictions(responseBody)
+                        runOnUiThread {
+                            displayPredictions(predictions)
+                        }
+                    }
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, "Error: ${response.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun parsePredictions(responseBody: String): List<InferenceClient.Prediction> {
+        val predictions = mutableListOf<InferenceClient.Prediction>()
+        val jsonObject = JSONObject(responseBody)
+        val predictionsArray = jsonObject.getJSONArray("predictions")
+        for (i in 0 until predictionsArray.length()) {
+            val predictionObject = predictionsArray.getJSONObject(i)
+            val label = predictionObject.getString("label")
+            val score = predictionObject.getDouble("score")
+            predictions.add(InferenceClient.Prediction(label, score))
+        }
+        return predictions
+    }
+
+    private fun displayPredictions(predictions: List<InferenceClient.Prediction>) {
+        val predictionsText = predictions.joinToString(separator = "\n") {
+            "${it.label}: ${"%.2f".format(it.score)}"
+        }
+        runOnUiThread {
+            Toast.makeText(this, predictionsText, Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
+class InferenceClient {
+    data class Prediction(val label: String, val score: Double)
 }
